@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const PSD = require('psd.js')
+
 class App extends Component<{},{ text: string }> {
   constructor(props: any) {
     super(props);
@@ -11,7 +13,9 @@ class App extends Component<{},{ text: string }> {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    let psd = await PSD.fromURL("https://filedrive.github.io/pen/mask-min.psd")
+    console.log(psd)
     const fetchInit = {
       method: "GET",
       headers: { "content-type": "application/json" }
