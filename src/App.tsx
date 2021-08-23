@@ -5,7 +5,7 @@ import { DropDirectory } from './components/DropDirectory'
 
 const PSD = require('psd.js')
 
-class App extends Component<{},{ text: string, imgSrc1: string, top: string, left: string, imgSrc2: string, imgSrc3: string }> {
+class App extends Component<{}, { text: string, imgSrc1: string, top: string, left: string, imgSrc2: string, imgSrc3: string, layers: {url: string,top: string,left: string}[] }> {
   constructor(props: any) {
     super(props);
 
@@ -16,6 +16,7 @@ class App extends Component<{},{ text: string, imgSrc1: string, top: string, lef
       left: '',
       imgSrc2: '',
       imgSrc3: '',
+      layers: []
     };
   }
 
@@ -28,30 +29,11 @@ class App extends Component<{},{ text: string, imgSrc1: string, top: string, lef
     fetch(url, fetchInit)
       .then(response => response.json())
       .then(response => this.setState(response));
-    
-    PSD.fromURL("https://filedrive.github.io/pen/mask-min.psd").then((psd: any) => {
-      //console.log(psd.image)
-      //console.log(psd.tree().childrenAtPath('Seal')[0].toPng())
-      //console.log(psd.tree().descendants()[0].layer)
-      var data = psd.tree().descendants()[0].layer.image.file.data
-      var b64 = "data:image/png;base64," + btoa(String.fromCharCode.apply(data));
-
-      let test: any = psd.image.toBase64()
-      //let test = b64
-    })
   }
 
   eventLogger = (e: MouseEvent, data: Object) => {
     console.log('Event: ', e);
     console.log('Data: ', data);
-  }
-
-  onDrop(evt: any) {
-    PSD.fromEvent(evt).then(function (psd: any) {
-      console.log(psd.tree().export());
-    }).catch((err:any) => {
-      console.log(err)
-    });
   }
 
   handleDragOver = (e: any) => {
@@ -61,19 +43,14 @@ class App extends Component<{},{ text: string, imgSrc1: string, top: string, lef
   }
 
   handleDrop = async(e: any) => {
-    console.log("Drop")
 
     let psd = await PSD.fromEvent(e)
-    let layer1 = psd.tree().descendants()[0].layer
-    let url = layer1.image.toBase64()
-    this.setState({ imgSrc1: url ,top: layer1.top, left: layer1.left})
-
-
-
-    url = psd.tree().descendants()[1].layer.image.toBase64()
-    this.setState({ imgSrc2: url })
-    url = psd.tree().descendants()[2].layer.image.toBase64()
-    this.setState({ imgSrc3: url })
+    let layerNum = psd.tree().descendants().length
+    for (let i = layerNum-1; i >= 0; i--){
+      let layer = psd.tree().descendants()[i].layer
+      let url = layer.image.toBase64()
+      this.setState({ layers: this.state.layers.concat([{ url: url ,top: layer.top, left: layer.left}]) })
+    }
     e.stopPropagation()
     e.preventDefault()
   }
@@ -84,9 +61,13 @@ class App extends Component<{},{ text: string, imgSrc1: string, top: string, lef
       <div className="App">
         <header className="App-header">
           
-          <img src={this.state.imgSrc3} style={{ position: "absolute" }}/>
+          {/* <img src={this.state.imgSrc3} style={{ position: "absolute", top:this.state.top, left:this.state.left}}/>
           <img src={this.state.imgSrc2} style={{ position: "absolute" }}/>
-          <img src={this.state.imgSrc1} style={{ position: "absolute" }}/>
+          <img src={this.state.imgSrc1} style={{ position: "absolute" }}/> */}
+          {this.state.layers.map(layer => {
+            return <img src={layer?.url} style={{ position: "absolute", top:layer?.top, left:layer?.left}}/>
+          })}
+          
 
           <div onDragOver={this.handleDragOver} onDrop={this.handleDrop}>ここへPSDをドロップ</div>
           {/* <DropZone />
