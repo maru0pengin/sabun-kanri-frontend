@@ -1,32 +1,23 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './App.css';
-import DropZone from './utils/DropZone';
-import { DropDirectory } from './components/DropDirectory'
+// import DropZone from './utils/DropZone';
+// import { DropDirectory } from './components/DropDirectory'
 
+import axios from 'axios';
 const PSD = require('psd.js')
 
-class App extends Component<{}, { text: string, layers: {url: string,top: string,left: string}[], canvasWidth:number,psd:any }> {
+const apiUrlBase:string = "https://sabun-kanri-backend.herokuapp.com/api/posts";
+
+class App extends Component<{}, { layers: {url: string,top: string,left: string}[], canvasWidth:number,psd:any }> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      text: '',
       layers: [],
       canvasWidth: 0,
       psd: null
     };
   }
-  async componentDidMount() {
-    const fetchInit = {
-      method: "GET",
-      headers: { "content-type": "application/json" }
-    };
-    let url:string = new URL("hello_world", process.env.REACT_APP_SERVER_URL).toString()
-    fetch(url, fetchInit)
-      .then(response => response.json())
-      .then(response => this.setState(response));
-  }
-
   eventLogger = (e: MouseEvent, data: Object) => {
     console.log('Event: ', e);
     console.log('Data: ', data);
@@ -55,36 +46,14 @@ class App extends Component<{}, { text: string, layers: {url: string,top: string
   }
 
   sendPsd = async (e: any) => {
-    // await fetch(`http://localhost:5000/api/psd/3`, {
-    //   method:'DELETE',
-    //   mode: 'cors'
-    // })
-
     var formData = new FormData()
-    formData.append('title', 'testたいとる')
-    formData.append('psd', this.state.psd)
-    //formData.append("psd", '')
-    console.log(formData)
-    const res = await fetch(`http://localhost:5000/api/psd`, {
-      method:'POST',
-      // headers: {
-      //   "Content-Type": "multipart/form-data"
-      // },
-      body: formData
-    })
+    formData.append('title', 'testたーとる')
+    console.log(this.state.psd)
+    formData.append('image', this.state.psd)
 
-    // if (!res.ok) {
-    //   let err
-    //   try {
-    //     err = await res.json()
-    //   } catch {
-    //     err = {
-    //       statusCode: res.status,
-    //       message: res.statusText,
-    //     }
-    //   }
-    //   console.log(err)
-    // }
+    const res = await axios.post(apiUrlBase, formData
+    )
+
     console.log(res)
   }
 
