@@ -1,16 +1,22 @@
-import { useState } from 'react'
-import axios from 'axios';
-const apiUrlBase: string = "https://sabun-kanri-backend.herokuapp.com/api/posts";
+
+import { PSDRepository } from '../models/PSD';
+import { useState } from 'react';
+import { PSDList } from './PSDList'
 
 function PSDForm() {
   const [psdFile, setPSD] = useState<any>()
   const [title, setTitle] = useState("")
+  const [psdUrl, setpsdUrl] = useState("")
   const upload = async () => {
-    var formData = new FormData()
+    interface CustomFormData extends FormData {
+      append(title: string, psdFile:any):void
+    }
+    var formData:CustomFormData = new FormData()
     formData.append('title', title)
     formData.append('image', psdFile)
 
-    const res = await axios.post(apiUrlBase, formData)
+    const res = await new PSDRepository().create(formData)
+    setpsdUrl(res.image_url)
   }
 
 
@@ -38,6 +44,8 @@ function PSDForm() {
         upload
       </button>
     </section>
+
+    <PSDList psdUrl={psdUrl} />
   </div>
   );
 }

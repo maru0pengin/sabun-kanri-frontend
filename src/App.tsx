@@ -1,7 +1,5 @@
 import { Component } from 'react';
 import './App.css';
-// import DropZone from './utils/DropZone';
-// import { DropDirectory } from './components/DropDirectory'
 
 import axios from 'axios';
 const PSD = require('psd.js')
@@ -71,9 +69,7 @@ class App extends Component<{}, { layers: {url: string,top: string,left: string}
           <div onDragOver={this.handleDragOver} onDrop={this.handleDrop}>ここへPSDをドロップ</div>
           <button onClick={this.sendPsd}>保存</button>
           <div style={{ position: "relative" ,backgroundColor: "red" ,marginTop: "50px", width: this.state.canvasWidth}}>
-            {/* <img src={this.state.imgSrc3} style={{ position: "absolute", top:this.state.top, left:this.state.left}}/>
-            <img src={this.state.imgSrc2} style={{ position: "absolute" }}/>
-            <img src={this.state.imgSrc1} style={{ position: "absolute" }}/> */}
+
             {this.state.layers.map(layer => {
               return <img src={layer?.url} style={{ position: "absolute", top:layer?.top, left:layer?.left, maxWidth: "500px"}}/>
             })}

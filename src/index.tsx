@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <PSDForm/>
     <HelloWorld/>
-    <App />
+    {/* <App /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
