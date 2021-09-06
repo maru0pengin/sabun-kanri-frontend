@@ -24,20 +24,22 @@ const PSDList: React.FC<PSDListProps> = (props) => {
         let psd = await PSD.fromURL(props.psdUrl)
         let layerNum = psd.tree().descendants().length
         let canvasWidth = psd.header.cols
+        let _layers:LayerType[] = []
         for (let i = layerNum - 1; i >= 0; i--) {
           let layer = psd.tree().descendants()[i].layer
           let url = layer.image.toBase64()
-          setlayers(layers.concat([{ url: url, top: layer.top, left: layer.left }]))
+          _layers = _layers.concat({ url: url, top: layer.top, left: layer.left })
         }
+        setlayers(_layers)
         setCanvasWidth(canvasWidth)
       })()
     }
-  });
+  },[props]);
   return (
     <div style={{ position: "relative" ,backgroundColor: "red" ,marginTop: "50px", width: canvasWidth}}>
-      {layers.map(layer => {
-      return <img src={layer?.url} style={{ position: "absolute", top:layer?.top, left:layer?.left, maxWidth: "500px"}}/>
-      })}
+    {layers.map((layer,i) => {
+      return <img key={i} src={layer?.url} style={{ position: "absolute", top:layer?.top, left:layer?.left, maxWidth: "500px"}}/>
+    })}
   </div>
   );
 }
