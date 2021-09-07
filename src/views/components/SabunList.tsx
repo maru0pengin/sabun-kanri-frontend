@@ -15,7 +15,7 @@ interface LayerType {
 }
 
 const SabunList: React.FC<SabunListProps> = (props) => {
-  const [list, setList] = useState<LayerType[][]>([[]])
+  const [list, setList] = useState<LayerType[][]>([])
   const [canvasSize, setCanvasSize] = useState<{ width: number, height: number }>({ width: 0, height: 0 })
   
   const [update, setUpdata] = useState<boolean>(false)
@@ -33,18 +33,32 @@ const SabunList: React.FC<SabunListProps> = (props) => {
     setCanvasSize(_canvasSize)
     let _list:LayerType[][] = list
     let _layers: LayerType[] = []
-    for (let j = 0; j < 3; j++) {
-      for (let i = layerNum - 1; i >= 0; i--) {
-        let layer
-        if (psd.tree().children()[i]._children.length > 0) {
-          layer = psd.tree().children()[i].children()[j].layer
-        } else {
-          layer = psd.tree().children()[i].layer
+
+    console.log(layerNum)
+    let layer
+    for (let s = 0; s < 3; s++) {
+      for (let k = 0; k < 3; k++) {
+        for (let j = 0; j < 3; j++) {
+          for (let i = layerNum - 1; i >= 0; i--) {
+            layer = {}
+            if (psd.tree().children()[i]._children.length > 0) {
+              console.log(`j:${j}`)
+              if (i === 0) layer = psd.tree().children()[i].children()[j].layer
+              else if (i === 1) layer = psd.tree().children()[i].children()[k].layer
+              else if (i === 2) layer = psd.tree().children()[i].children()[s].layer
+              else layer = psd.tree().children()[i].children()[0].layer
+            } else {
+              console.log(`i:${i}`)
+              layer = psd.tree().children()[i].layer
+            }
+            let url = layer.image.toBase64()
+            _layers = _layers.concat({ url: url, top: layer.top / scale, left: layer.left / scale, width: layer.width / scale })
+          }
+          _list.push(_layers)
+          //_list[j ] = _layers
+          _layers = []
         }
-        let url = layer.image.toBase64()
-        _layers = _layers.concat({ url: url, top: layer.top / scale, left: layer.left / scale, width: layer.width / scale })
       }
-      _list[j] = _layers
     }
     
     setList(_list)
