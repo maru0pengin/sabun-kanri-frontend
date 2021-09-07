@@ -29,14 +29,14 @@ const Thumbnail: React.FC<ThumbnailProps> = (props) => {
         let _layers:LayerType[] = []
         for (let i = layerNum - 1; i >= 0; i--) {
           let layer
-          console.log(psd.tree().children()[i])
+          //console.log(psd.tree().children()[i])
           if (psd.tree().children()[i]._children.length > 0) {
-            console.log(`下から${i + 1}番目の要素はディレクトリです`)
+            //console.log(`下から${i + 1}番目の要素はディレクトリです`)
             layer = psd.tree().children()[i].children()[0].layer
             //console.log(layer)
           } else {
             layer = psd.tree().children()[i].layer
-            console.log(`下から${i + 1}番目の要素はレイヤーです`)
+            //console.log(`下から${i + 1}番目の要素はレイヤーです`)
             //console.log(layer)
           }
           let url = layer.image.toBase64()

@@ -83,9 +83,10 @@
 //   }
 // }
 
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Top } from './views/pages/Top';
 import { New } from './views/pages/New';
+import { Detail } from './views/pages/Detail';
 import Header from 'views/components/Header';
 
 
@@ -94,10 +95,11 @@ const App = () => {
     <div>
       <Header />
       <BrowserRouter>
-        <div>
+        <Switch>
           <Route path="/" exact component={Top} />
-          <Route path="/new"  component={New} />
-        </div>
+          <Route path="/new" component={New} />
+          <Route path="/detail/:id"  component={Detail} />
+        </Switch>
       </BrowserRouter>
     </div>
   );
