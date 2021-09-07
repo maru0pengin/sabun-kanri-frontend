@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { HelloWorld } from './components/HelloWorld';
-import { PSDForm } from './components/PSDForm';
+// import { HelloWorld } from './views/components/HelloWorld';
+// import { PSDForm } from './views/components/PSDForm';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <PSDForm/>
-    <HelloWorld/>
-    {/* <App /> */}
+    {/* <PSDForm/>
+    <HelloWorld/> */}
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

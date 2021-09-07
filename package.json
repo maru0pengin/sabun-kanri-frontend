@@ -47,5 +47,8 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.8"
   }
 }

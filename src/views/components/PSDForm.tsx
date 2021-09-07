@@ -1,5 +1,5 @@
 
-import { PSDRepository } from '../models/PSD';
+import { PSDRepository } from "models/PSD";
 import { useState } from 'react';
 import { PSDList } from './PSDList'
 
