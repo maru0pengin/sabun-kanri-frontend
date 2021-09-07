@@ -1,7 +1,7 @@
 
 import { PSDRepository } from "models/PSD";
 import { useState } from 'react';
-import { PSDList } from './PSDList'
+import { Thumbnail } from './Thumbnail'
 
 function PSDForm() {
   const [psdFile, setPSD] = useState<any>()
@@ -46,8 +46,7 @@ function PSDForm() {
         upload
       </button>
     </section>
-
-      <PSDList psdUrl={psdUrl} />
+      <Thumbnail psdUrl={psdUrl} width={ 300 }/>
   </div>
   );
 }

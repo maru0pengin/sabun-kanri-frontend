@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { PSDList } from 'views/components/PSDList'
 
 const Top = () => {
   return (
@@ -6,9 +7,10 @@ const Top = () => {
       ここが一覧ページ！！！！
       <Link to="/new">
         <button>
-          show PageTwo when you click this!!
+          新規作成
         </button>
       </Link>
+      <PSDList/>
     </div>
   );  
 };

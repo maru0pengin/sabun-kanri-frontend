@@ -22,11 +22,11 @@ export class PSDRepository extends BaseRepository<CustomFormData> {
     }
   }
 
-  // async all() {
-  //   return await baseAPI({
-  //     endpoint: this.baseEndpoint,
-  //   })
-  // }
+  async all() {
+    return await baseAPI<any>({
+      endpoint: this.baseEndpoint,
+    })
+  }
 
 
   async delete(id:number) {
