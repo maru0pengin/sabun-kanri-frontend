@@ -27,6 +27,12 @@ export class PSDRepository extends BaseRepository<CustomFormData> {
       endpoint: this.baseEndpoint,
     })
   }
+  
+  async show(id:string) {
+    return await baseAPI<any>({
+      endpoint: `${this.baseEndpoint}/${id}`,
+    })
+  }
 
 
   async delete(id:number) {

@@ -1,6 +1,28 @@
 import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
+import React from "react";
+import { useState, useEffect } from 'react';
+import { PSDRepository } from "models/PSD";
+import { SabunList } from "views/components/SabunList"
 
-const Detail = () => {
+type DetailProps = RouteComponentProps<{
+  id: string;
+ }>;
+
+const Detail: React.FC<DetailProps> = (props) => {
+  const [psdUrl, setpsdUrl] = useState("")
+
+  const id = props.match.params.id;
+  console.log(id);
+
+  useEffect(() => {
+    (async () => {
+      const res: any = await new PSDRepository().show(id)
+      console.log(res)
+      setpsdUrl(res.image_url)
+      })()
+    }
+  ,[props]);
   return (
     <div>
       ここが詳細ページ！！！！
@@ -9,6 +31,7 @@ const Detail = () => {
           Top
         </button>
       </Link>
+      <SabunList psdUrl={psdUrl}/>
     </div>
   );  
 };
