@@ -86,10 +86,13 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Top } from './views/pages/Top';
 import { New } from './views/pages/New';
+import Header from 'views/components/Header';
+
 
 const App = () => {
   return (
     <div>
+      <Header />
       <BrowserRouter>
         <div>
           <Route path="/" exact component={Top} />
