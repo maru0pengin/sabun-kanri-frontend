@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 const PSD = require('psd.js');
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,14 +41,20 @@ const SabunList: React.FC<SabunListProps> = (props) => {
     height: number;
   }>({ width: 0, height: 0 });
 
+  const [count, setCount] = useState(0);
+
   const [partsNameList, setPartsNameList] = useState<string[]>([]);
 
   const [update, setUpdata] = useState<boolean>(false);
+  const [showListFlag, setShowListFlag] = useState<boolean>(false);
 
   let scale: number = 1;
   const width = 200;
 
-  console.log('再レンダリング');
+  //console.log('再レンダリング');
+
+  const _sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   const showList = async () => {
     let psd = await PSD.fromURL(props.psdUrl);
@@ -64,13 +70,20 @@ const SabunList: React.FC<SabunListProps> = (props) => {
 
     let loopIndexList = [];
     let _partsNameList = [];
+
+    //表情差分のトータル数
+    let sabunTotalNum = 1;
+
     for (let i = 0; i < 7; i++) {
       loopIndexList[i] = psd.tree().children()[i]?.children().length;
-      console.log();
       if (loopIndexList[i] === undefined || loopIndexList[i] === 0)
         loopIndexList[i] = 1;
-      else _partsNameList[i] = psd.tree().children()[i].name;
+      else {
+        sabunTotalNum = sabunTotalNum * loopIndexList[i];
+        _partsNameList[i] = psd.tree().children()[i].name;
+      }
     }
+    console.log(sabunTotalNum);
     setPartsNameList(_partsNameList);
     console.log(_partsNameList.reverse());
     console.log(layerNum);
@@ -78,6 +91,7 @@ const SabunList: React.FC<SabunListProps> = (props) => {
     // このプログラムでは5項目の差分までしか表示できない
     // ToDo:簡潔なコードへ修正する
     console.log(loopIndexList[4]);
+    let new_count = count;
     for (let n = 0; n < loopIndexList[4]; n++) {
       for (let m = 0; m < loopIndexList[3]; m++) {
         for (let l = 0; l < loopIndexList[2]; l++) {
@@ -101,7 +115,6 @@ const SabunList: React.FC<SabunListProps> = (props) => {
                   layer = psd.tree().children()[i].layer;
                 }
                 let url = layer.image.toBase64();
-                //console.log(layer);
                 _layers = _layers.concat({
                   url: url,
                   top: layer.top / scale,
@@ -111,74 +124,81 @@ const SabunList: React.FC<SabunListProps> = (props) => {
                 });
               }
               _list.push(_layers);
-              //_list[j ] = _layers
               _layers = [];
+              new_count = new_count + 100 / sabunTotalNum;
+              setCount(Math.floor(new_count));
+              console.log(new_count);
+              await _sleep(1);
             }
           }
         }
       }
     }
-
+    setCount(100);
     setList(_list);
-    console.log('うに丼');
-    console.log(_list);
+    // console.log('うに丼');
+    // console.log(_list);
     //ToDo: 強制再レンダリングをしない方法を調べる
     setUpdata(update ? false : true);
+    setShowListFlag(true);
   };
   return (
     <div>
       <button onClick={showList}>リスト表示</button>
-      <Grid container className={classes.root} spacing={2}>
-        <Grid item xs={12}>
-          <Grid container justifyContent="center" spacing={2}>
-            {list.map((layers, i) => {
-              return (
-                <div
-                  style={{
-                    position: 'relative',
-                    backgroundColor: 'white',
-                    margin: '10px',
-                    padding: '0 5px 0 5px',
-                    width: canvasSize.width + 25,
-                    height: canvasSize.height,
-                    border: '2px solid',
-                    borderColor: '#dcdcdc',
-                    borderRadius: '10px',
-                  }}
-                >
-                  {layers.map((layer, j) => {
-                    return (
-                      <div>
+      <CircularProgress variant="determinate" value={count} />
+      {showListFlag && (
+        <Grid container className={classes.root} spacing={2}>
+          <Grid item xs={12}>
+            <Grid container justifyContent="center" spacing={2}>
+              {list.map((layers, i) => {
+                return (
+                  <div
+                    style={{
+                      position: 'relative',
+                      backgroundColor: 'white',
+                      margin: '10px',
+                      padding: '0 5px 0 5px',
+                      width: canvasSize.width + 25,
+                      height: canvasSize.height,
+                      border: '2px solid',
+                      borderColor: '#dcdcdc',
+                      borderRadius: '10px',
+                    }}
+                  >
+                    {layers.map((layer, j) => {
+                      return (
                         <div>
-                          <img
-                            width={layer.width / scale}
-                            key={`${i}+${j}`}
-                            src={layer?.url}
-                            style={{
-                              top: layer?.top,
-                              left: layer?.left + 25,
-                              maxWidth: '500px',
-                              position: 'absolute',
-                              display: 'block',
-                            }}
-                          />
-                        </div>
-                        {j !== 0 ? (
                           <div>
-                            {partsNameList[j - 1]}:{layer.legacyName}
+                            <img
+                              width={layer.width / scale}
+                              key={`${i}+${j}`}
+                              src={layer?.url}
+                              style={{
+                                top: layer?.top,
+                                left: layer?.left + 25,
+                                maxWidth: '500px',
+                                position: 'absolute',
+                                display: 'block',
+                              }}
+                            />
                           </div>
-                        ) : (
-                          <div></div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
+                          {j !== 0 ? (
+                            <div>
+                              {partsNameList[j - 1]}:{layer.legacyName}
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Thumbnail } from 'views/components/Thumbnail';
 import { PSDRepository } from 'models/PSD';
+import TopLoadingBar from 'views/components/LinearProgressTest';
 import React from 'react';
 
 interface DetailTopProps {
@@ -15,8 +16,8 @@ const DetailTop: React.FC<DetailTopProps> = (props) => {
   return (
     <div>
       <Thumbnail psdUrl={props.psdUrl} width={300} />
-      ここが詳細の頭！
       <button onClick={deletePDF}>削除</button>
+      {/* <TopLoadingBar /> */}
     </div>
   );
 };

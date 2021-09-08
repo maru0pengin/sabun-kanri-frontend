@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { PSDRepository } from 'models/PSD';
 import { Thumbnail } from 'views/components/Thumbnail';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
