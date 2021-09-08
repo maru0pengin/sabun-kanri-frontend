@@ -2,17 +2,12 @@
 import { PSDRepository } from "models/PSD";
 import { useState } from 'react';
 import { Thumbnail } from './Thumbnail'
-import { useHistory } from 'react-router-dom';
 
 function PSDForm() {
   const [psdFile, setPSD] = useState<any>()
   const [title, setTitle] = useState("")
   const [psdUrl, setpsdUrl] = useState("")
-  const history = useHistory();
 
-  const move = (id:number) => {
-    history.push(`/detail/${id}`); // 画面遷移
-  };
 
   const upload = async () => {
     interface CustomFormData extends FormData {
