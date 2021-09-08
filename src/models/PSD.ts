@@ -34,14 +34,14 @@ export class PSDRepository extends BaseRepository<CustomFormData> {
     });
   }
 
-  // async delete(id: number) {
-  //   try {
-  //     return await baseAPI<any>({
-  //       endpoint: `${this.baseEndpoint}/${id}`,
-  //       method: 'DELETE',
-  //     });
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // }
+  async delete(id: string) {
+    try {
+      return await baseAPI<any>({
+        endpoint: `${this.baseEndpoint}/${id}`,
+        method: 'DELETE',
+      });
+    } catch (err) {
+      return err;
+    }
+  }
 }
