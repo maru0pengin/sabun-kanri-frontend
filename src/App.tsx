@@ -93,8 +93,8 @@ import Header from 'views/components/Header';
 const App = () => {
   return (
     <div>
-      <Header />
       <BrowserRouter>
+        <Header />
         <Switch>
           <Route path="/" exact component={Top} />
           <Route path="/new" component={New} />

@@ -6,7 +6,7 @@ const Top = () => {
     <div>
       ここが一覧ページ！！！！
       <Link to="/new">
-        <button>
+        <button　className="bg-red-100">
           新規作成
         </button>
       </Link>
