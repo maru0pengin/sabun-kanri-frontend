@@ -5,30 +5,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  
-}));
+
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
       <AppBar position="static" color="default">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6">
             <Link to={`/`}>Sabun Kanri</Link> 
           </Typography>
         </Toolbar>
       </AppBar>
-    </div>
   );
 }
