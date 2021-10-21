@@ -1,4 +1,3 @@
-
 // export let getPSD = () => PSD.fromURL("/path/to/file.psd").then((psd:any) => {
 //   document.getElementById('ImageContainer')?.appendChild(psd.image.toPng());
 // });
@@ -12,8 +11,8 @@
 
 export async function psd() {
   var PSD = require('psd');
-  let url = "C:\guides.psd"
-  await PSD.fromURL(url).then(function (psd:any) {
+  let url = 'C:guides.psd';
+  await PSD.fromURL(url).then(function (psd: any) {
     console.log(psd);
     console.log(psd.tree().export());
   });

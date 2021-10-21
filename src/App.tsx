@@ -65,7 +65,7 @@
 //     return (
 //       <div className="App">
 //         <header className="App-header">
-          
+
 //           <div onDragOver={this.handleDragOver} onDrop={this.handleDrop}>ここへPSDをドロップ</div>
 //           <button onClick={this.sendPsd}>保存</button>
 //           <div style={{ position: "relative" ,backgroundColor: "red" ,marginTop: "50px", width: this.state.canvasWidth}}>
@@ -89,7 +89,6 @@ import { New } from './views/pages/New';
 import { Detail } from './views/pages/Detail';
 import Header from 'views/components/Header';
 
-
 const App = () => {
   return (
     <div>
@@ -98,7 +97,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Top} />
           <Route path="/new" component={New} />
-          <Route path="/detail/:id"  component={Detail} />
+          <Route path="/detail/:id" component={Detail} />
         </Switch>
       </BrowserRouter>
     </div>

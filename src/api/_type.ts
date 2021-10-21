@@ -1,4 +1,4 @@
 export type TResponse = {
-  statusCode: number
-  message: string
-}
+  statusCode: number;
+  message: string;
+};

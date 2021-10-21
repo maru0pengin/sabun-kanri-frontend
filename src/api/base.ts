@@ -1,4 +1,4 @@
-import type { TResponse } from './_type'
+import type { TResponse } from './_type';
 import axios from 'axios';
 /**
  * @generics T 返り値の型
@@ -13,40 +13,37 @@ export async function baseAPI<
   method = 'GET',
   body,
 }: {
-  endpoint: string
-  options?: { auth: boolean; timeout?: number }
-  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
-  body?: B
+  endpoint: string;
+  options?: { auth: boolean; timeout?: number };
+  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  body?: B;
 }): Promise<T> {
-
-  const controller = new AbortController()
+  const controller = new AbortController();
   const timeoutId = setTimeout(() => {
-    controller.abort()
-  }, options.timeout || 10 * 1000) // デフォルトでは10秒でタイムアウト
+    controller.abort();
+  }, options.timeout || 10 * 1000); // デフォルトでは10秒でタイムアウト
 
   const res = await axios({
-    method : method,
-    url    : `${process.env.REACT_APP_SERVER_URL}/${endpoint}`,
-    data   : body 
-  }).finally(() => clearTimeout(timeoutId))
-
+    method: method,
+    url: `${process.env.REACT_APP_SERVER_URL}/${endpoint}`,
+    data: body,
+  }).finally(() => clearTimeout(timeoutId));
 
   if (res.statusText !== 'OK') {
-    let err: TResponse
+    let err: TResponse;
     try {
-      err = await res.data
+      err = await res.data;
     } catch {
       err = {
         statusCode: res.status,
         message: res.statusText,
-      }
+      };
     }
-    throw err
+    throw err;
   }
   try {
-    return await res.data
+    return await res.data;
   } catch {
-    return {} as T
+    return {} as T;
   }
 }
-

@@ -6,13 +6,11 @@ const New = () => {
     <div>
       ここが新規投稿ページ！！！！
       <Link to="/">
-        <button>
-          一覧ページへ
-        </button>
+        <button>一覧ページへ</button>
       </Link>
-      <PSDForm/>
+      <PSDForm />
     </div>
   );
 };
 
-export { New }
+export { New };
